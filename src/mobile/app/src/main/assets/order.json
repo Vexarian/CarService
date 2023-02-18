@@ -1,0 +1,10 @@
+{
+  "oderId": 0,
+  "createdGmt": "2022.10.01 11:00",
+  "status": "Активен",
+  "carName": "BMW",
+  "carLicensePlate": "н243ее82",
+  "cost": 1000.00,
+  "comment": "Комментарий",
+  "master": "Мастер"
+}

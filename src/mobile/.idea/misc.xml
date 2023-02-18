@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../../layout/compose-model-1669719185237.xml" value="0.7818428184281843" />
+        <entry key="../../../../layout/compose-model-1669724621861.xml" value="0.375" />
+        <entry key="../../../../layout/compose-model-1669784910203.xml" value="0.4546296296296296" />
+        <entry key="../../.gradle/caches/transforms-3/1dd6b06ab40b45a7bc79c9697d15ae74/transformed/material-1.6.1/res/layout/material_clock_display.xml" value="0.20104166666666667" />
+        <entry key="../../.gradle/caches/transforms-3/6d5c09bfbc2f16e83db55a88eb0619d0/transformed/material-1.7.0/res/layout/material_clock_display.xml" value="0.20104166666666667" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Embedded JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
