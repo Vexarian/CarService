@@ -12,4 +12,10 @@ interface CarServiceDataStore {
         master: String,
     )
 
+    fun getStatusFilter(): Flow<String?>
+
+    suspend fun setStatusFilter(
+        statusFilter: String,
+    )
+
 }

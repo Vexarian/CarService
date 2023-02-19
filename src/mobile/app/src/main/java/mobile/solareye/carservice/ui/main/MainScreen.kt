@@ -13,17 +13,19 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import mobile.solareye.carservice.CarServiceViewModelFactory
 import mobile.solareye.carservice.data.model.Order
+import mobile.solareye.carservice.data.model.StatusFilter
 import mobile.solareye.carservice.ui.common.ErrorState
 import mobile.solareye.carservice.ui.common.Loading
 import mobile.solareye.carservice.ui.common.MyAlertDialog
@@ -42,10 +44,38 @@ fun ListOrderScreen(
     var needUpdateState by remember { mutableStateOf(needUpdate) }
 
     val dialogState: MutableState<Boolean> = remember { mutableStateOf(false) }
+    var showMenu by remember { mutableStateOf(false) }
 
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar(
             actions = {
+                Box {
+                    IconButton(onClick = { showMenu = showMenu.not() }) {
+                        Icon(Icons.Filled.Menu, "filterIcon")
+                    }
+                    DropdownMenu(
+                        expanded = showMenu,
+                        onDismissRequest = { showMenu = false }) {
+                        StatusFilter.values().forEach {
+                            DropdownMenuItem(text = {
+                                Row(verticalAlignment = CenterVertically) {
+                                    Icon(
+                                        Icons.Filled.Check,
+                                        "filterCheck",
+                                        tint = if (viewModel.filter.title == it.title) Color.Black else Color.Transparent
+                                    )
+                                    Text(
+                                        modifier = Modifier.fillMaxSize(),
+                                        text = it.title,
+                                    )
+                                }
+                            }, onClick = {
+                                viewModel.setFilter(it)
+                                showMenu = false
+                            })
+                        }
+                    }
+                }
                 IconButton(onClick = { dialogState.value = true }) {
                     Icon(Icons.Filled.Settings, "settingsIcon")
                 }
@@ -108,11 +138,10 @@ fun OrderListContent(
     onNavigateToOrderEdit: (Int) -> Unit,
     onNavigateToOrderShow: (Int) -> Unit,
 ) {
-    val orders = remember { data }
     LazyColumn(
         contentPadding = paddingValues
     ) {
-        items(items = orders, itemContent = {
+        items(items = data, itemContent = {
             OrderItem(
                 order = it,
                 onNavigateToOrderEdit = onNavigateToOrderEdit,

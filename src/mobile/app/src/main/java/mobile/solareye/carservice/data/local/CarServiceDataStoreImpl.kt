@@ -16,6 +16,7 @@ class CarServiceDataStoreImpl(
         const val DATA_STORE_NAME = "car_service"
 
         val KEY_MASTER_NAME = stringPreferencesKey("key_master_name")
+        val KEY_STATUS_FILTER = stringPreferencesKey("key_status_filter")
     }
 
     private val Context.dataStore by preferencesDataStore(name = DATA_STORE_NAME)
@@ -31,6 +32,12 @@ class CarServiceDataStoreImpl(
 
     override suspend fun setMasterName(master: String) {
         context.dataStore.edit { prefs -> prefs[KEY_MASTER_NAME] = master }
+    }
+
+    override fun getStatusFilter() = context.dataStore.data.map { prefs -> prefs[KEY_STATUS_FILTER] }
+
+    override suspend fun setStatusFilter(statusFilter: String) {
+        context.dataStore.edit { prefs -> prefs[KEY_STATUS_FILTER] = statusFilter }
     }
 
 }
