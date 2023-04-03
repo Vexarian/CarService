@@ -9,6 +9,7 @@ sealed class MainUiState {
 
     class Content(
         val data: List<Order>,
+        val ordersForNotifications: List<Order>,
     ) : MainUiState()
 
     object Error : MainUiState()

@@ -7,7 +7,6 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,7 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import mobile.solareye.carservice.CarServiceViewModelFactory
@@ -29,6 +28,7 @@ import mobile.solareye.carservice.data.model.StatusFilter
 import mobile.solareye.carservice.ui.common.ErrorState
 import mobile.solareye.carservice.ui.common.Loading
 import mobile.solareye.carservice.ui.common.MyAlertDialog
+import mobile.solareye.carservice.utils.showNotificationsIfNeeded
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
@@ -111,6 +111,10 @@ fun ListOrderScreen(
                         onNavigateToOrderEdit,
                         onNavigateToOrderShow,
                     )
+                    showNotificationsIfNeeded(
+                        LocalContext.current,
+                        state.ordersForNotifications,
+                    )
                 }
             }
             MainUiState.Error -> ErrorState { viewModel.repeatLastRequest() }
@@ -141,9 +145,9 @@ fun OrderListContent(
     LazyColumn(
         contentPadding = paddingValues
     ) {
-        items(items = data, itemContent = {
+        items(items = data, itemContent = { order ->
             OrderItem(
-                order = it,
+                order = order,
                 onNavigateToOrderEdit = onNavigateToOrderEdit,
                 onNavigateToOrderShow = onNavigateToOrderShow,
             )

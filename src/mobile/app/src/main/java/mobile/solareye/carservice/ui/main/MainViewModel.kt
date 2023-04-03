@@ -13,6 +13,8 @@ import mobile.solareye.carservice.data.model.StatusFilter
 import mobile.solareye.carservice.data.model.onFailure
 import mobile.solareye.carservice.data.model.onSuccess
 import mobile.solareye.carservice.data.repository.FeatureRepository
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class MainViewModel(
     private val repository: FeatureRepository,
@@ -53,10 +55,20 @@ class MainViewModel(
     }
 
     private fun filterData(data: List<Order>) {
-        _uiState.value = MainUiState.Content(data = when (filter) {
-            StatusFilter.ACTIVE -> data.filter { it.closedGmt == null }
-            StatusFilter.ALL -> data
-        })
+        _uiState.value = MainUiState.Content(
+            data = when (filter) {
+                StatusFilter.ACTIVE -> data.filter { it.closedGmt == null }
+                StatusFilter.ALL -> data
+            },
+            ordersForNotifications = data.filter { order ->
+                if (order.closedGmt != null ) return@filter false
+
+                val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd kk:mm:ss")
+                val now = LocalDateTime.now()
+                val orderCreatedDateTime = LocalDateTime.parse(order.createdGmt, dateTimeFormatter)
+                return@filter now.minusDays(1).isAfter(orderCreatedDateTime)
+            }
+        )
     }
 
     fun refresh() {
