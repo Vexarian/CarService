@@ -10,10 +10,16 @@ class FeatureRepositoryImpl(
     private val api: EndpointRestApi
 ) : FeatureRepository {
 
-    override suspend fun getOrders(): Result<List<Order>> {
+    override suspend fun getOrders(
+        master: String?,
+        deviceId: String,
+    ): Result<List<Order>> {
         return handleResult(
             networkCall = {
-                val orders = api.getOrders()
+                val orders = api.getOrders(
+                    master,
+                    deviceId,
+                )
                 return@handleResult orders.toOrders()
             },
             errorMapper = ErrorMapper::map

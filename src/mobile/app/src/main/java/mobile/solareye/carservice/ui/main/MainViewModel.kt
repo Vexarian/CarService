@@ -44,7 +44,10 @@ class MainViewModel(
     private fun getData() {
         _uiState.value = MainUiState.InitialProgress
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getOrders().onSuccess {
+            repository.getOrders(
+                masterName,
+                dataStore.deviceId,
+            ).onSuccess {
                 orders = it.data
                 filterData(it.data)
             }.onFailure {
