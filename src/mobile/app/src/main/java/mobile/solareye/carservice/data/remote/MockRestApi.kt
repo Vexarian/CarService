@@ -7,6 +7,7 @@ import mobile.solareye.carservice.data.model.*
 import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 class MockRestApi(
     private val context: Context
@@ -16,7 +17,10 @@ class MockRestApi(
         const val DELAY = 500L
     }
 
-    override suspend fun getOrders(): List<OrderDto> {
+    override suspend fun getOrders(
+        master: String?,
+        deviceId: String,
+    ): List<OrderDto> {
         delay(DELAY)
         return MockUtils.readEntityFromJson(
             context,

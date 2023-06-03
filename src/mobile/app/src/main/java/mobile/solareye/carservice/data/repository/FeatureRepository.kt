@@ -5,7 +5,10 @@ import mobile.solareye.carservice.data.model.Result
 
 interface FeatureRepository {
 
-    suspend fun getOrders(): Result<List<Order>>
+    suspend fun getOrders(
+        master: String?,
+        deviceId: String,
+    ): Result<List<Order>>
 
     suspend fun getOrder(orderId: Int): Result<Order>
 

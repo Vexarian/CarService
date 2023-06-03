@@ -6,7 +6,10 @@ import retrofit2.http.*
 interface EndpointRestApi {
 
     @GET("orders")
-    suspend fun getOrders(): List<OrderDto>
+    suspend fun getOrders(
+        @Query("master") master: String?,
+        @Query("deviceId") deviceId: String,
+    ): List<OrderDto>
 
     @GET("orders/{orderId}")
     suspend fun getOrder(
